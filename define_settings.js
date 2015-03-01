@@ -183,9 +183,7 @@ function showActive(x){
         case "B1":                
 
             if (set_timeout == 30){
-                alert("timeoutti ny:" + set_timeout);
                 var col=document.getElementById("D1");
-                alert("timeoutti ny viä:" + set_timeout);
                 changed = 11;
             }
             else{

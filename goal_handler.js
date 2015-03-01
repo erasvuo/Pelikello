@@ -15,10 +15,7 @@ function addGoal(i,j)
     var result = predigit.fontcolor("black");    
     
     if(i < 10){
-        if(j===2)
-            str = i.toString()+ result;        
-        else
-            str = result+i.toString();
+        str = result+i.toString();
     }
     else 
         str = i.toString();         

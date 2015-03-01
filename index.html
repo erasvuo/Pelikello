@@ -1,20 +1,21 @@
-<HTML>
-<HEAD>
-<title>Pelikello</title>
-<link rel="stylesheet" type="text/css" href="themes.css">
-<link rel="stylesheet" href="themes.css" type="text/css"/>
-<link rel="stylesheet" href="themes.css" type="text/css">
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset = "utf-8">
+    <title>Pelikello</title>
+    <link rel="stylesheet" type="text/css" href="themes.css">
+    <link rel="stylesheet" href="themes.css" type="text/css"/>
+    <link rel="stylesheet" href="themes.css" type="text/css">
 
-<script src="define_settings.js"> </script>
-<script src="format_time.js"> </script>    
-<script src="goal_handler.js"> </script> 
-<script src="playsound.js"> </script> 
-<script src="penalty_handler.js"> </script> 
-<meta charset = "utf-8">
-<audio id="myaudio" src="myaudio.mp3"></audio>
-
-
-<H2>Gameboard display</H2>
+    <script src="define_settings.js"></script>
+    <script src="format_time.js"></script>    
+    <script src="goal_handler.js"></script> 
+    <script src="playsound.js"></script> 
+    <script src="penalty_handler.js"></script> 
+</head>
+<body>
+    <audio id="myaudio" src="myaudio.mp3"></audio>
+    <H2>Gameboard display</H2>
 
 <table class="table1">
     <thead>
@@ -32,10 +33,10 @@
             </table>
         </th>
         
-        <dummy>0</dummy>
-        <th class="th1"><output id="homegoalsonscreen">0<dummy>0</dummy></output></th>
+
+        <th class="th1"><output id="homegoalsonscreen">00</output></th>
         <th class="th5"><output id="period">1</output></th>
-        <th class="th1"><output id="visitorgoalsonscreen"><dummy>0</dummy>0</output></th>
+        <th class="th1"><output id="visitorgoalsonscreen">00</output></th>
         <th class="th3">
             <table class="table6">
                 <tr>
@@ -257,5 +258,10 @@
 
 </script>
 
-</BODY>
-</HTML>
+
+<button class="button" id="testi" type="button">
+
+
+
+</body>
+</html>
