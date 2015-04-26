@@ -3,13 +3,35 @@ var visitorgoals = 0;
 var i = 0;
 var str = "";
 
-function UpdateGoalsToScreen(){
-document.getElementById('homegoalsonscreen').innerHTML = addGoal(homegoals,2);    
-document.getElementById('visitorgoalsonscreen').innerHTML = addGoal(visitorgoals,3);
+function resetAll(){
+ homegoals = 0;
+ visitorgoals = 0;
+ i = 0;
+ str = "";
+ 
+ UpdateGoalsToScreen();
+ break_time = 1;
+
+ str = prefixZero(0);
+ document.getElementById("gametime").innerHTML = str;
+ document.getElementById("H1").innerHTML = str;
+ stopWorker();
+ document.getElementById("period").innerHTML = 1;                 
+
+ resetPenaltyTimer();
+ resetTimeout();
+
 }
 
 
-function addGoal(i,j)
+
+function UpdateGoalsToScreen(){
+document.getElementById('homegoalsonscreen').innerHTML = addGoal(homegoals);    
+document.getElementById('visitorgoalsonscreen').innerHTML = addGoal(visitorgoals);
+}
+
+
+function addGoal(i)
 {
     var predigit = "0";
     var result = predigit.fontcolor("black");    
@@ -22,7 +44,7 @@ function addGoal(i,j)
     return str;
 }
 
-function remGoal(i,j)
+function remGoal(i)
 {
     var predigit = "0";
     var result = predigit.fontcolor("black");      
@@ -37,11 +59,13 @@ function remGoal(i,j)
 
 function AddHomeGoal(){
 homegoals = homegoals + 1;
-document.getElementById('homegoals').innerHTML = addGoal(homegoals,0);
+document.getElementById('homegoals').innerHTML = addGoal(homegoals);
+removePenalties(0);
 }
 function AddVisitorGoal(){
 visitorgoals = visitorgoals + 1;
-document.getElementById('visitorgoals').innerHTML = addGoal(visitorgoals,1);
+document.getElementById('visitorgoals').innerHTML = addGoal(visitorgoals);
+removePenalties(1);
 }
 
 function RemHomeGoal(){

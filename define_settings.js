@@ -1,8 +1,9 @@
+var hometeam = "KOTI";
+var visitorteam = "VIERAS";
 var w;
 var pause_time = 0;
 var new_pause_time = 0;
 var str;
-
 
 var myVar;
 var timeout_timer = 0;
@@ -21,7 +22,6 @@ var long_penalty = 5;
 var period_count = 1;
 var given_number = "";
 function setGamePeriod(){
-//    game_period = 12; // this must be given and read from numbers-pad
     game_period = given_number;
     var game_time = new Date();
     var col=document.getElementById("E1");
@@ -44,7 +44,6 @@ function addDigit(digit){
 
 
 function setBreakPeriod(){
-//    break_period = 2; // this must be given and read from numbers-pad
     break_period = given_number;
     var break_time = new Date();    
     var col=document.getElementById("F1");
@@ -56,20 +55,18 @@ function setBreakPeriod(){
 }
 
 function setTimeoutPeriod(){
-//    set_timeout = 30; // this must be given and read from numbers-pad
     set_timeout = given_number;    
     timeout_timer = set_timeout;
     var timeout_time = new Date(); 
-    var col=document.getElementById("B2");
+    var col=document.getElementById("G1");
     col.style.color="black";
     timeout_time.setSeconds(set_timeout);
-    document.getElementById("B2").innerHTML = timeout_time.getSeconds() + "sec";
+    document.getElementById("G1").innerHTML = timeout_time.getSeconds() + "sec";
     changed = 0;
     given_number = ""; 
 }
 
 function setLongPenalty(){
-//    long_penalty = 4;
     long_penalty = given_number;
     var long_penalty_time = new Date();
     var col=document.getElementById("D1");
@@ -81,7 +78,6 @@ function setLongPenalty(){
 }
 
 function setPeriodCount(){
-//    period_count = 4;
     period_count = given_number; 
     var col=document.getElementById("E2");
     col.style.color="black";
@@ -157,6 +153,18 @@ function stopTimeout() {
   clearInterval(myVar);
 }
 
+function resetTimeout() {
+  document.getElementById('hometimeout').innerHTML = ""; 
+  document.getElementById('visitortimeout').innerHTML = ""; 
+  document.getElementById('breakperiod').innerHTML = "";
+  document.getElementById('F2').innerHTML = "H/" + 0;
+  document.getElementById('G2').innerHTML = "G/" + 0;
+  hometimeoutcount = 0;
+  visitortimeoutcount = 0;
+  timeout_timer = 0;
+}
+
+
 
 function showActive(x){
     switch (x){
@@ -181,20 +189,18 @@ function showActive(x){
             }             
             break;
         case "B1":                
-
-            if (set_timeout == 30){
                 var col=document.getElementById("D1");
-                changed = 11;
-            }
-            else{
-                var col=document.getElementById("B2");
-                changed = 3;            
-            }             
+                changed = 11;                
+            
             break;
         case "D1": 
-            if (long_penalty === 5){
+            if (long_penalty === 5 & menu_state === 0){
                 var col=document.getElementById("D1");
                 changed = 4;
+            }
+            else if (menu_state === 1){
+                var col=document.getElementById("D1");
+                changed = 12; 
             }
             else{
                 var col=document.getElementById("D2");
@@ -202,15 +208,44 @@ function showActive(x){
             }             
             break;
 
-        case "G1": 
-            var col=document.getElementById("G2");
-            changed = 7;
+        case "G1":
+            if (menu_state === 1){
+                var col=document.getElementById("G1");
+                changed = 3;    
+            }
+            else{
+                var col=document.getElementById("G2");
+                changed = 7;            
+            } 
+                                    
             break;
         case "C1": 
-            var col=document.getElementById("C2");
-            changed = 8;
+            if (short_penalty === 2 & menu_state === 0){
+                var col=document.getElementById("C2");
+                changed = 8; 
+            }
+            else if (menu_state === 1){
+                var col=document.getElementById("C1");
+                changed = 13; 
+            }
+            else{
+                var col=document.getElementById("C2");
+                changed = 8;            
+            }             
             break;
-        
+            
+            
+            
+            
+            if (menu_state === 0){
+                var col=document.getElementById("C1");
+                changed = 13;
+            }
+            else{
+                var col=document.getElementById("C2");
+                changed = 8;            
+            }
+
         case "A1": 
             var col=document.getElementById("C1");
             changed = 10;
@@ -257,7 +292,7 @@ function clearChanges(){
     col.style.color="black";
     col=document.getElementById("H2");
     col.style.color="black";
-    clearNumber();
+    //clearNumber();
     changed = 0;
 }
 
@@ -296,6 +331,16 @@ function checkChanges(){
         case 11:
             setPenaltyForPlayer(long_penalty);            
             break;       
+        case 12:  
+            //setTeamName();            
+            visitorteam = "Ässät";
+            document.getElementById('D1').innerHTML = visitorteam;
+            break;        
+        case 13:  
+            //setTeamName();            
+            hometeam = "TPS";
+            document.getElementById('C1').innerHTML = hometeam;        
+            break;            
         default:
             break;            
     }
@@ -304,23 +349,22 @@ function checkChanges(){
 
 
 function openMenu(){
-//alert("gp"+(game_period*60)+ "s_pen"+(short_penalty*60));
     if (menu_state === 0){
         document.getElementById('A1').innerHTML = "JÄÄKIEKKO";
-        document.getElementById('C1').innerHTML = "JOUK.";
-        document.getElementById('D1').innerHTML = "NIMI";
+        document.getElementById('C1').innerHTML = hometeam;
+        document.getElementById('D1').innerHTML = visitorteam;
         document.getElementById('E1').innerHTML = game_period + ":00";
         document.getElementById('F1').innerHTML = break_period + ":00";
-        document.getElementById('G1').innerHTML = "AIKA";                        
-        document.getElementById('H1').innerHTML = "ÄÄNI";                        
+        document.getElementById('G1').innerHTML = set_timeout + "sec";                        
+        document.getElementById('H1').innerHTML = "";                        
 
-        document.getElementById('A2').innerHTML = "TALL";
-        document.getElementById('B2').innerHTML = "ULOS";
+        document.getElementById('A2').innerHTML = "";
+        document.getElementById('B2').innerHTML = "";
         document.getElementById('C2').innerHTML = "H";
         document.getElementById('D2').innerHTML = "G";
         document.getElementById('E2').innerHTML = "AIKA";
         document.getElementById('F2').innerHTML = "TAUKO";
-        document.getElementById('G2').innerHTML = "YLÖS";                        
+        document.getElementById('G2').innerHTML = "AIKALISÄ";                        
         document.getElementById('H2').innerHTML = "AUTO";         
         menu_state = 1;
     }
@@ -331,10 +375,11 @@ function openMenu(){
         document.getElementById('E1').innerHTML = "ERÄ";
         document.getElementById('F1').innerHTML = "AIKALISÄ";
         document.getElementById('G1').innerHTML = "";                        
-        document.getElementById('H1').innerHTML = "0:00";                        
+        //document.getElementById('H1').innerHTML = "";                        
+
         
-        document.getElementById('A2').innerHTML = "";
-        document.getElementById('B2').innerHTML = set_timeout + "sec";
+        document.getElementById('A2').innerHTML = "LYHYT";
+        document.getElementById('B2').innerHTML = "PITKÄ";
         document.getElementById('C2').innerHTML = "H:XX";
         document.getElementById('D2').innerHTML = "G:XX";
         document.getElementById('E2').innerHTML = period_count;
@@ -348,8 +393,8 @@ function openMenu(){
 function stopWorker() {
     w.terminate();
     w = undefined;
-    new_pause_time = 0;  // oisko tää ok??
-    pause_time = 0;  // oisko tää ok??    
+    new_pause_time = 0;
+    pause_time = 0;
     menu_state = 1;
     openMenu();
 }
@@ -368,7 +413,7 @@ function pauseWorker() {
 function startWorker() {
     if(typeof(Worker) !== "undefined") {
         if(typeof(w) === "undefined"  && (break_time === 1 || break_time <= period_count)) {
-            w = new Worker("demo_workers.js");
+            w = new Worker("workers.js");
         }
         //päivitä erä
         if (break_time > period_count)            
@@ -381,6 +426,9 @@ function startWorker() {
                 playSound();
                 str = prefixZero(event.data + pause_time);
                 document.getElementById("gametime").innerHTML = str;
+                if (menu_state === 0){
+                    document.getElementById("H1").innerHTML = str;
+                }
                 stopWorker();  //erän loppu
                 checkAndStopPenalties();
                 break_time += 1;
@@ -389,6 +437,9 @@ function startWorker() {
             else{ 
                 str = prefixZero(event.data + pause_time);
                 document.getElementById("gametime").innerHTML = str;
+                if (menu_state === 0){
+                    document.getElementById("H1").innerHTML = str;
+                }
                 checkAndStartPenalties();
             }
             };
