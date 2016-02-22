@@ -5,6 +5,22 @@ var penalty_started = [0,0,0,0,0,0];
 var penalty_paused = [0,0,0,0,0,0];
 var penalty_timer = [0,0,0,0,0,0];
 
+var ActionEnum = Object.freeze({"gameperiod":1, 
+                                "breakperiod":2, 
+                                "timeoutperiod":3,
+                                "changepenaltytimes":4,
+                                "periodcount":5, 
+                                "hometimeout":6,
+                                "visitortimeout":7,
+                                "homepenalty":8,
+                                "visitorpenalty":9, 
+                                "penaltyforplayer":10,
+                                "savevalues":11,
+                                "countingdirection":12,
+                                "penaltytime":13
+                                });
+
+
 function startPenaltyTimer(i){
     penaltyVar[i] = setInterval(function(){ setPenaltyTimer(i); }, 1000);
     penalty_started[i] = 1;
@@ -79,57 +95,49 @@ function setHomePenalty(){
     for (i = 0; i < 3; i++) {
         if (home_player[i] === 0){
             home_player[i] =given_number;
-            given_number = "";                        
             break;
         }
     }    
     var col=document.getElementById("C2");
     col.style.color="black";
-    document.getElementById('C2').innerHTML = "H:"+home_player[i];    
-    changed = 0;
+    last_penalty_player = given_number;
+    given_number = "";
 }
 
 function setVisitorPenalty(){
     for (i = 3; i < 6; i++) {
         if (visitor_player[i] === 0){
             visitor_player[i] =given_number;
-            given_number = "";
             break;
         }
     }             
     var col=document.getElementById("D2");
     col.style.color="black";
-    document.getElementById('D2').innerHTML = "G:"+ visitor_player[i];    
-    changed = 0;
-
+    last_penalty_player = given_number;
+    given_number = "";
 }
 
 
-function setPenaltyForPlayer(penalty){
-    var penalty;
-    var col;
-    if (penalty === short_penalty)
-        col=document.getElementById("C1");
-    else
-        col=document.getElementById("D1");        
+function setPenaltyForPlayer(lastpenalty,last_penalty_player, home){
 
-    col.style.color="black";
-    var q;    
-    var temppi = document.getElementById('C2').innerHTML;
-    var output_text = temppi.substring(2);
-    if (output_text !== "XX"){
-        updatePenaltyToScreen(penalty,"koti",output_text);
-        q = setNextHomePenaltyIndex((penalty*60),output_text);    
+    var q;
+    
+    if (home === 1){
+        var temppi = document.getElementById('C2').value;
+        var output_text = temppi.substring(2);
+        if (output_text !== "XX"){
+            updatePenaltyToScreen(lastpenalty,"koti",last_penalty_player);
+            q = setNextHomePenaltyIndex((lastpenalty*60),last_penalty_player);    
+        }
     }
-    document.getElementById('C2').innerHTML = "H:XX";
-
-    temppi = document.getElementById('D2').innerHTML;
-    output_text = temppi.substring(2);
-    if (output_text !== "XX"){
-        updatePenaltyToScreen(penalty,"vieras",output_text);   
-        q = setNextVisitorPenaltyIndex((penalty*60),output_text);          
-    }        
-    document.getElementById('D2').innerHTML = "G:XX";  
+    else {
+        var temppi = document.getElementById('D2').value;
+        var output_text = temppi.substring(2);
+        if (output_text !== "XX"){
+            updatePenaltyToScreen(lastpenalty,"vieras",last_penalty_player);
+            q = setNextVisitorPenaltyIndex((lastpenalty*60),last_penalty_player);    
+        }
+    }
 }
 
 
@@ -203,7 +211,7 @@ function updatePenaltyToScreen(z,x,y){
         else if (document.getElementById('homepenalty2nr').innerHTML === '')        
             document.getElementById('homepenalty2nr').innerHTML = y;
         else
-            alert("kotijoukkueen jäähytaulu täynnä");
+            alert("kotijoukkueen jÃ¤Ã¤hytaulu tÃ¤ynnÃ¤");
 
     }
     else{
@@ -214,7 +222,7 @@ function updatePenaltyToScreen(z,x,y){
         else if (document.getElementById('visitorpenalty2nr').innerHTML === '')        
             document.getElementById('visitorpenalty2nr').innerHTML = y;
         else
-            alert("vierasjoukkueen jäähytaulu täynnä");
+            alert("vierasjoukkueen jÃ¤Ã¤hytaulu tÃ¤ynnÃ¤");
     }
 }
 

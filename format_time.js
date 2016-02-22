@@ -24,8 +24,3 @@ function prefixZero(i)
     
     return curTime;
 }
-
-function setPink(){
-    var col=document.getElementById("setpink");
-    col.style.color="pink";
-}
